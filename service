@@ -1,0 +1,21 @@
+[Unit]
+Description=My Server
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/node /home/ec2-user/aws-week1/app.js
+WorkingDirectory=/home/ec2-user/aws-week1
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=my_node_server
+User=ec2-user
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl enable Server.service
+sudo systemctl start Server.service
+
+sudo systemctl status Server.service

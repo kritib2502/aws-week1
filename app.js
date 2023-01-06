@@ -1,35 +1,41 @@
 const express = require('express')
 const app = express()
 
+app.use(express.static("build"))
+app.use(express.json())
+
 app.get("/", (req, res) => {
   console.log("GET /")
   res.send("<h1>AWS Week1</h1>")
 })
 
-app.use(express.json())
 
-const pokemons = [
+const words = [
   {
     id: 1,
-    name: "Pikachu",
-    type: "electric ⚡️",
-    level: 99,
-    image: "/pikachu.webp"
+    name: "Person",
+    word: "Hello",
   }
 ]
 
-app.get("/api/pokemons", (req, res) => {
-  console.log("GET /api/pokemons")
-  res.send({pokemons: pokemons})
+app.get("/api/words", (req, res) => {
+  console.log("GET /api/words")
+  res.send({words: words})
 });
 
-app.post("/api/pokemons", (req, res) => {
+app.post("/api/words", (req, res) => {
   const data = req.body
-  console.log("POST /api/pokemons", data)
-  data.id = pokemons.length+1
-  pokemons.push(data)
+  console.log("POST /api/words", data)
+  data.id = words.length+1
+  words.push(data)
   res.send(data)
 })
+
+// After all other routes
+app.get('*', (req, res) => {
+  res.sendFile('build/index.html');
+});
+
 
 const port = process.env.PORT || 8080
 app.listen(port, () => console.log(`listening on port ${port}`))
